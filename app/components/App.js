@@ -66,11 +66,22 @@ class App extends React.Component {
       if (currentQueryHash !== this.state.lastQueryHash) {
         this.setState({ flights: [] });
         api.getFlights(this.state.form).then((result) => {
+          let resultObj = result;
+          const formValue = this.state.form;
+          let resultArray = [];
+          console.log(`formValue`, formValue);
+          resultArray = result.trips.tripOption.filter(
+            (item) =>
+              item.slice[0].segment[0].leg[0].origin === formValue.from &&
+              item.slice[0].segment[0].leg[0].destination === formValue.to
+          );
+          delete resultObj.trips.tripOtion;
+          resultObj.trips.tripOption = resultArray;
+          console.log(`resultArray *******************`, resultObj);
           this.setState({
-            flights: result,
+            flights: resultObj,
             lastQueryHash: currentQueryHash,
           });
-
           resolve();
         });
       } else resolve();
