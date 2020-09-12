@@ -4,12 +4,14 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import FlightList from "./FlightList";
 import Header from "./Header";
 import Form from "./Form";
-import Ticket from "./Ticket";
+import Confirm from "./Confirm";
 import Feedback from "./Feedback";
 import api from "../utils/api";
+import Ticket from "./Ticket";
 
 function Headbar(props) {
-  const canGoBack = location.pathname !== "/";
+  const canGoBack =
+    location.pathname !== "/" && location.pathname !== "/confirm";
   return (
     <div className="headbar">
       {canGoBack && (
@@ -18,8 +20,7 @@ function Headbar(props) {
           className="zmdi zmdi-arrow-left btnBack"
         ></i>
       )}
-      <span>Flight</span>
-      <span className="blue">.Book</span>
+      <span>Flight Reservation</span>
     </div>
   );
 }
@@ -150,6 +151,19 @@ class App extends React.Component {
               path="/ticket"
               render={(props) => (
                 <Ticket
+                  {...props}
+                  formData={this.state.form}
+                  flights={this.state.flights}
+                  setCurrentPath={this.handleSetCurrentPath}
+                  selectedFlight={this.state.selectedFlight}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/confirm"
+              render={(props) => (
+                <Confirm
                   {...props}
                   formData={this.state.form}
                   flights={this.state.flights}

@@ -1,8 +1,7 @@
 import React from "react";
 import Feedback from "./Feedback";
-import { Link } from "react-router-dom";
 
-function TicketInfo(props) {
+function ConfirmInfo(props) {
   //const { airport, aircraft, carrier, city, tax } = props.auxData;
   const { carrier, city } = props.flights.trips.data;
   const flightData = _.findWhere(props.flights.trips.tripOption, {
@@ -52,8 +51,8 @@ function TicketInfo(props) {
           <span>{_.compact(ptext).join(", ")}</span>
         </div>
         <div className="cell">
-          <small>ClassName</small>
-          <span>{props.formData.fclass}</span>
+          <small>Person Name</small>
+          {/* <span>{props.formData.fclass}</span> */}
         </div>
       </div>
       <div className="row">
@@ -62,8 +61,8 @@ function TicketInfo(props) {
           <span>{`${w} ${d} ${m}`}</span>
         </div>
         <div className="cell">
-          <small>Return</small>
-          <span>One Way</span>
+          <small>PNR</small>
+          <span>{Math.floor(Math.random() * 1000000000 + 1)}</span>
         </div>
       </div>
       <div className="row">
@@ -73,21 +72,13 @@ function TicketInfo(props) {
         </div>
         <div className="cell"></div>
       </div>
-      <div className="total">
-        <small>Total</small>{" "}
-        <span>{flightData.saleTotal.replace("EUR", "€")}</span>
-      </div>
     </section>
   );
 }
 
-class Ticket extends React.Component {
+class Confirm extends React.Component {
   componentDidMount() {
     this.props.setCurrentPath(location.pathname);
-  }
-
-  bookFlight() {
-    console.log("Flight Booked, Happy Trip :D");
   }
 
   render() {
@@ -96,18 +87,9 @@ class Ticket extends React.Component {
       <div className="content">
         <div className="ticket">
           {!isEmpty ? (
-            <TicketInfo {...this.props} />
+            <ConfirmInfo {...this.props} />
           ) : (
             <Feedback text="No Data" />
-          )}
-
-          {!isEmpty && (
-            <div className="control">
-              <Link className="btnSearch" to="/confirm">
-                {" "}
-                Book Flight{" "}
-              </Link>
-            </div>
           )}
         </div>
       </div>
@@ -115,4 +97,4 @@ class Ticket extends React.Component {
   }
 }
 
-export default Ticket;
+export default Confirm;
